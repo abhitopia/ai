@@ -7,4 +7,6 @@ section#about-us{padding:50px}section#about-us h3.module-subtitle{margin:20px 0 
 section#about-us p{font-size:14px}
 .steps{vertical-align:middle;font-size:14px;line-height:normal;display:flex;flex-align:column;margin-left:10px}
 .step-1{margin-top:21px}
+.step-img{max-height:60px;min-width:60px}
 .step-2{margin-top:21px}
+.step-3{margin-top:10px}
