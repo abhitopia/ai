@@ -10,4 +10,6 @@ jQuery(document).ready(function() {
        jQuery('li').removeClass('active');
        jQuery(this).parent('li').toggleClass('active');
     });
+
+    jQuery(".panel-toggle.left").hide();
 })
