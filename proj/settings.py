@@ -41,6 +41,7 @@ BASE_APPS = (
 
 CUSTOM_APPS = (
     'core',
+    'ai_twitter',
 )
 
 INSTALLED_APPS = BASE_APPS + CUSTOM_APPS
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ai_1',
+        'USER': 'postgres',
+        'PASSWORD': 'omkar',
+        'HOST': 'localhost',
+        'PORT': '5433'
     }
 }
 
