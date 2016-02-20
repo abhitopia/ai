@@ -88,7 +88,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'omkar',
         'HOST': 'localhost',
-        'PORT': '5433'
+        'PORT': '5432'
     }
 }
 
@@ -129,8 +129,8 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 from datetime import timedelta
 
 CELERYBEAT_SCHEDULE = {
-    'flush-models-cache': {
-        'task': 'product.tasks.flush_all_models_cache',
-        'schedule': timedelta(seconds=900),
+    'collect-data-from-twitter': {
+        'task': 'ai_twitter.tasks.collect_data_from_twitter',
+        'schedule': timedelta(seconds=300),
     }
 }
