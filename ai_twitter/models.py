@@ -13,7 +13,6 @@ class Twitter_Tweet(models.Model):
     """
     Twitter Tweet
     """
-
     tweet_id = models.CharField(verbose_name='Twitter id', max_length=200, unique=True, blank=True)
     timestamp = models.DateTimeField(verbose_name='Created time', auto_now=True)
 
@@ -28,4 +27,5 @@ class Twitter_Tweet(models.Model):
 
     twitter_user = models.ForeignKey(Twitter_User, blank=True, null=True, on_delete=models.SET_NULL)
 
+    twitter_timestamp_string = models.CharField(verbose_name='Tweet timestamp', null=True, blank=True, max_length=200)
 
