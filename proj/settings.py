@@ -120,3 +120,17 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_LOCATION = 'static'
+
+
+###### Celery  settings #########
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+from datetime import timedelta
+
+CELERYBEAT_SCHEDULE = {
+    'flush-models-cache': {
+        'task': 'product.tasks.flush_all_models_cache',
+        'schedule': timedelta(seconds=900),
+    }
+}

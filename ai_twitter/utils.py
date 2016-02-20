@@ -53,15 +53,43 @@ def create_tweet(result):
 
     try:
         tweet = Twitter_Tweet.objects.get(tweet_id=tweet_id)
+        tweet.conversation_id = conversation_id
+
+        print '-----conversation id------'
+        print conversation_id
+
+        print type(conversation_id)
+        if conversation_id is None or conversation_id=='None':
+            tweet.conversation_id = tweet_id
+            print 'in if'
+            print tweet_id
+        else:
+            print 'not if'
+            print conversation_id
+
+
+        print tweet.conversation_id
     except:
         tweet = Twitter_Tweet()
         tweet.twitter_user = twitter_user
         tweet.content = text
 
+        print '-----conversation id------'
+        print conversation_id
 
         tweet.conversation_id = conversation_id
-        if conversation_id is None or conversation_id == '':
+
+        print type(conversation_id)
+        if conversation_id is None or conversation_id=='None':
             tweet.conversation_id = tweet_id
+            print 'in if'
+            print tweet_id
+        else:
+            print 'not if'
+            print conversation_id
+
+
+        print tweet.conversation_id
 
         tweet.tweet_id = tweet_id
         tweet.twitter_handle_name = twitter_handle_name
@@ -82,7 +110,7 @@ def get_tweets_by_user(tweet_user, from_date):
 
     print api.VerifyCredentials()
 
-    results = api.GetSearch(raw_query="q=from%3ABTCare%20since%3A2016-02-19&src=typd&count=100")
+    results = api.GetSearch(raw_query="q=from%3ABTCare%20since%3A2016-02-19&src=typd&count=20")
 
     i = 0
     for result in results:
