@@ -110,7 +110,7 @@ def get_tweets_by_user(tweet_user, from_date):
 
     print api.VerifyCredentials()
 
-    results = api.GetSearch(raw_query="q=from%3ABTCare%20since%3A2016-02-19&src=typd&count=20")
+    results = api.GetSearch(raw_query="q=from%3ABTCare%20since%3A2016-02-19&src=typd&count=100")
 
     i = 0
     for result in results:
