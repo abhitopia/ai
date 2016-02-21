@@ -27,13 +27,13 @@ SIGNIN_URL = 'https://api.twitter.com/oauth/authenticate'
 COMPANIES = [
     'BTCare',
     'greateranglia',
-    'GWRHelp',
-    'ID_Mobile_UK',
     'LondonMidland',
-    'TPOuk',
-    'virginmedia',
+    'nationalrailenq',
+    'northernrailorg',
+    'Se_Railway',
+    'SpotifyCares',
     'VirginTrains',
-    'XboxSupport'
+    'virginmedia'
 ]
 
 
@@ -130,7 +130,6 @@ def get_tweets_by_user(tweet_user, from_date):
 
     api = twitter.Api(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET, access_token_key=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)
 
-    print api.VerifyCredentials()
 
     companies_query =  "%20OR%20".join(['from%3A' + company_name for company_name in COMPANIES])
 
@@ -139,7 +138,6 @@ def get_tweets_by_user(tweet_user, from_date):
     i = 0
     for result in results:
         i = i+1
-        print i
         create_tweet(result)
 
 
@@ -150,7 +148,7 @@ def get_tweets_mentioning_user(tweet_user, from_date):
 
     api = twitter.Api(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET, access_token_key=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)
 
-    print api.VerifyCredentials()
+
 
     companies_query =  "%20OR%20".join(['%40' + company_name for company_name in COMPANIES])
 
@@ -159,7 +157,7 @@ def get_tweets_mentioning_user(tweet_user, from_date):
     i = 0
     for result in results:
         i = i+1
-        print i
+
         create_tweet(result)
 
 
