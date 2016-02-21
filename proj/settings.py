@@ -131,6 +131,6 @@ from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
     'collect-data-from-twitter': {
         'task': 'ai_twitter.tasks.collect_data_from_twitter',
-        'schedule': timedelta(seconds=300),
+        'schedule': timedelta(seconds=150),
     }
 }
