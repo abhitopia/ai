@@ -37,6 +37,6 @@
 * ``` sudo service redis-server restart ```
 
 ### Then you can check the processes in 
-*  Go to http://<ipaddress>:9001
+*  Go to http://ipaddress:9001
 * Enter username: ai
 * Enter password: password
