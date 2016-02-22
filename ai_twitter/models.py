@@ -29,3 +29,7 @@ class Twitter_Tweet(models.Model):
 
     twitter_timestamp_string = models.CharField(verbose_name='Tweet timestamp', null=True, blank=True, max_length=200)
 
+    is_dummy = models.BooleanField(verbose_name='Is it dummy', default=False)
+    is_display = models.BooleanField(verbose_name='Should it display', default=False)
+
+    is_context_generated = models.BooleanField(verbose_name='Is context generated for this conversation', default=False)

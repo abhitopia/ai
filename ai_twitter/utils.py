@@ -5,6 +5,7 @@ import time
 import csv
 import codecs
 import os
+import random
 
 from .models import Twitter_User
 from .models import Twitter_Tweet
@@ -35,11 +36,6 @@ COMPANIES = [
     'VirginTrains',
     'virginmedia'
 ]
-
-
-
-#from%3Avirginmedia%20OR%20from%3ABTCare
-#%40BTCare%20OR%20%40virginmedia
 
 def create_tweet(result):
     """ Creates a tweet from twitter result json """
@@ -79,37 +75,18 @@ def create_tweet(result):
 
         if conversation_id is None or conversation_id=='None':
             tweet.conversation_id = tweet_id
-            print 'in if'
-            print tweet_id
-        else:
-            print 'not if'
-            print conversation_id
-
 
         tweet.twitter_timestamp_string = str(created_at)
         tweet.save()
-
-
-        print tweet.conversation_id
     except:
         tweet = Twitter_Tweet()
         tweet.twitter_user = twitter_user
         tweet.content = text
 
-        print '-----conversation id------'
-        print conversation_id
-
         tweet.conversation_id = conversation_id
 
-        print type(conversation_id)
         if conversation_id is None or conversation_id=='None':
             tweet.conversation_id = tweet_id
-            print 'in if'
-            print tweet_id
-        else:
-            print 'not if'
-            print conversation_id
-
 
         tweet.tweet_id = tweet_id
         tweet.twitter_handle_name = twitter_handle_name
@@ -166,15 +143,10 @@ def get_tweets_mentioning_user(tweet_user, from_date):
 def get_unprocessed_conversations():
     tweets = Twitter_Tweet.objects.filter(Q(is_processed=False) & Q(tweet_id=F('conversation_id')) & ~Q(twitter_handle_name__in=COMPANIES))
 
-    for tweet in tweets:
-        print '-----------'
-        print tweet.tweet_id
-        print tweet.conversation_id
-
     return tweets
 
 
-def get_valid_conversation_ids():
+def get_valid_unprocessed_conversation_ids():
     """
     Get all the valid conversation ids
     :return:
@@ -192,9 +164,9 @@ def get_valid_conversation_ids():
         # If the last tweet is by BTCare then its a valid query
         if last_tweet.twitter_handle_name in COMPANIES:
             valid_convesation_ids.append(last_tweet.conversation_id)
-            write_conversation_context(last_tweet.conversation_id)
 
     return valid_convesation_ids
+
 
 def get_latest_valid_conversation_id():
     """
@@ -202,23 +174,121 @@ def get_latest_valid_conversation_id():
     :return:
     """
 
-    valid_conversation_ids = get_valid_conversation_ids()
+    valid_conversation_ids = get_valid_unprocessed_conversation_ids()
 
     if len(valid_conversation_ids) > 0:
-        return valid_conversation_ids[len(valid_conversation_ids) -1]
+        return valid_conversation_ids[0]
     else:
         return None
 
-def write_conversation_context(conversation_id):
+
+def generate_conversation_context(conversation_id):
+    """
+    Generate the conversation context file.
+    :param conversation_id:
+    :return:
+    """
     tweets = Twitter_Tweet.objects.filter(Q(conversation_id=conversation_id)).order_by('tweet_id')
 
 
-    with open(settings.BASE_DIR + '/csv/context-' + conversation_id, 'wb') as csvfile:
-        for tweet in tweets:
+    try:
+        with open(settings.BASE_DIR + '/csv/context-' + conversation_id, 'wb') as csvfile:
+            for tweet in tweets:
 
-            context_writer = csv.writer(csvfile)
-            try:
-                context_writer.writerow([tweet.tweet_id, tweet.conversation_id, tweet.twitter_timestamp, tweet.twitter_handle_name, tweet.twitter_user.user_name, "", unicode(tweet.content.strip(codecs.BOM_UTF8)).encode("utf-8")])
-            except:
-                print 'unicode error'
+                context_writer = csv.writer(csvfile)
+                context_writer.writerow([tweet.tweet_id, tweet.conversation_id, tweet.twitter_timestamp, tweet.twitter_handle_name, tweet.twitter_user.user_name, "", unicode(tweet.content).encode("utf-8")])
+
+        # Update the tweets with that conversation id as context generated.
+        Twitter_Tweet.objects.filter(Q(conversation_id=conversation_id)).update(is_context_generated=True)
+    except:
+        print 'file write error'
+
+
+
+
+
+def get_context_generated_conversation():
+    """  Get the conversation for which the context has been generated, but output has not been generated.
+    :param conversation_id:
+    :return:
+    """
+
+    # Query for the conversations for which context generated is true and output has not been generated
+    conversations = Twitter_Tweet.objects.filter(Q(tweet_id=F('conversation_id')) & Q(is_context_generated=True) & Q(is_processed=True)).order_by('tweet_id')
+
+
+    if len(conversations) > 0:
+        return conversations[0].conversation_id
+    else:
+        return None
+
+
+
+def generate_conversation_output(conversation_id):
+    """
+    Generate the output file from the context file given a conversation.
+
+    :param conversation_id:
+    :return:
+    """
+
+    RANDOM_LINES = ['SORRY FOR THE INCONVIENIENCE', 'HOW CAN I HELP YOU']
+
+    lines = []
+
+    # Read all the lines.
+    with open(settings.BASE_DIR + '/csv/context-' + conversation_id, 'rb') as csvfile:
+        """ Replace the last line with the random response """
+
+        context_reader = csv.reader(csvfile)
+
+
+        for row in context_reader:
+            lines.append(row)
+
+
+
+    no_of_lines = len(lines)
+
+    # Get the last line.
+    lastline = []
+    if no_of_lines > 0:
+        lastline = lines[no_of_lines - 1]
+
+    generated_response = ''
+
+    # Now put every line into the output file, except for the last line.
+    with open(settings.BASE_DIR + '/output/output-' + conversation_id, 'wb') as csvfile:
+        context_writer = csv.writer(csvfile)
+
+        """
+        for i in xrange(0, no_of_lines - 1):
+            line = lines[i]
+            context_writer.writerow(line)
+
+        generated_response = RANDOM_LINES[random.randint(0, 1)]
+        lastline[len(lastline) - 1] = generated_response
+        """
+        generated_response = RANDOM_LINES[random.randint(0, 1)]
+        context_writer.writerow([generated_response])
+
+    # Update in database for that conversation that context has been generated and is processed is true.
+    Twitter_Tweet.objects.filter(Q(conversation_id=conversation_id) & Q(conversation_id=F('tweet_id'))).update(
+        is_dummy=True,
+        is_display=True,
+        is_processed=True,
+        is_context_generated=True,
+        processed_content=generated_response
+    )
+
+    Twitter_Tweet.objects.filter(Q(conversation_id=conversation_id)).update(
+        is_dummy=True,
+        is_display=True,
+        is_processed=True,
+        is_context_generated=True,
+    )
+
+
+
+
 
