@@ -1,4 +1,5 @@
 # ai
+* This documentation is assuming that the OS is ubuntu and user is ubuntu. Also the project has been downloaded in ~/ directory. If not make the corresponding changes in supervisord.conf.
 
 
 ### Installing Django
@@ -40,3 +41,5 @@
 *  Go to http://ipaddress:9001
 * Enter username: ai
 * Enter password: password
+* Context files are generated in csv/
+* Output files are generated in output/
