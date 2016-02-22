@@ -135,7 +135,7 @@ CELERYBEAT_SCHEDULE = {
     },
     'ai_twitter.tasks.generate_context': {
         'task': 'ai_twitter.tasks.generate_context_output',
-        'schedule': timedelta(seconds=30),
+        'schedule': timedelta(seconds=300),
     }
 
 }
