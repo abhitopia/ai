@@ -34,6 +34,8 @@
 ### Run supervisor
 * ``` sudo apt-get install supervisor ```
 * ``` source myenv/bin/activate ```
+* ``` mkdir csv ```
+* ``` mkdir output ```
 * ```supervisord ```
 * ``` sudo service redis-server restart ```
 
