@@ -101,8 +101,7 @@ def create_tweet(result):
 
 
 def get_tweets_by_user(tweet_user, from_date):
-    """
-    Get the tweets from the user since a particular data.
+    """ Get the tweets from the user since a particular data.
     """
 
     api = twitter.Api(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET, access_token_key=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)
@@ -119,8 +118,7 @@ def get_tweets_by_user(tweet_user, from_date):
 
 
 def get_tweets_mentioning_user(tweet_user, from_date):
-    """
-    Get the tweets from the user since a particular data.
+    """ Get the tweets from the user since a particular data.
     """
 
     api = twitter.Api(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET, access_token_key=ACCESS_TOKEN, access_token_secret=ACCESS_TOKEN_SECRET)
@@ -141,17 +139,16 @@ def get_tweets_mentioning_user(tweet_user, from_date):
 
 
 def get_unprocessed_conversations():
-    tweets = Twitter_Tweet.objects.filter(Q(is_processed=False) & Q(tweet_id=F('conversation_id')) & ~Q(twitter_handle_name__in=COMPANIES))
+    tweets = Twitter_Tweet.objects.filter(Q(tweet_id=F('conversation_id')) & ~Q(twitter_handle_name__in=COMPANIES))
 
     return tweets
 
 
 def get_valid_unprocessed_conversation_ids():
-    """
-    Get all the valid conversation ids
+    """ Get all the valid conversation ids
     :return:
     """
-    valid_convesation_ids = []
+    valid_conversation_ids = []
 
     conversations = get_unprocessed_conversations()
     for conversation in conversations:
@@ -162,15 +159,14 @@ def get_valid_unprocessed_conversation_ids():
             last_tweet = tweet
 
         # If the last tweet is by BTCare then its a valid query
-        if last_tweet.twitter_handle_name in COMPANIES:
-            valid_convesation_ids.append(last_tweet.conversation_id)
+        if last_tweet.twitter_handle_name in COMPANIES and last_tweet.is_processed is False:
+            valid_conversation_ids.append(last_tweet.conversation_id)
 
-    return valid_convesation_ids
+    return valid_conversation_ids
 
 
 def get_latest_valid_conversation_id():
-    """
-    Get the latest conversation id
+    """ Get the latest conversation id
     :return:
     """
 
@@ -183,8 +179,7 @@ def get_latest_valid_conversation_id():
 
 
 def generate_conversation_context(conversation_id):
-    """
-    Generate the conversation context file.
+    """ Generate the conversation context file.
     :param conversation_id:
     :return:
     """
@@ -225,8 +220,7 @@ def get_context_generated_conversation():
 
 
 def generate_conversation_output(conversation_id):
-    """
-    Generate the output file from the context file given a conversation.
+    """ Generate the output file from the context file given a conversation.
 
     :param conversation_id:
     :return:
@@ -273,7 +267,7 @@ def generate_conversation_output(conversation_id):
         context_writer.writerow([generated_response])
 
     # Update in database for that conversation that context has been generated and is processed is true.
-    Twitter_Tweet.objects.filter(Q(conversation_id=conversation_id) & Q(conversation_id=F('tweet_id'))).update(
+    Twitter_Tweet.objects.filter(Q(tweet_id=lastline[0])).update(
         is_dummy=True,
         is_display=True,
         is_processed=True,
