@@ -24,6 +24,10 @@
 * ``` source myenv/bin/activate ``` (enter the virtual env)
 * ``` pip install -r requirements.txt ```
 
+### Doing migrations ###
+* ``` python manage.py migrate ``` Does the migration of database
+* ``` python manage.py collectstatic ``` Prepares the static folder for css and javascript files.
+
 ### Configuring Redis ###
 * ``` sudo apt-get install redis-server ```
 * ``` sudo apt-get install vim ```
