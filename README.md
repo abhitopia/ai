@@ -1,4 +1,5 @@
 # ai
+* This documentation is assuming that the OS is ubuntu and user is ubuntu. Also the project has been downloaded in ~/ directory. If not make the corresponding changes in supervisord.conf.
 
 
 ### Installing Django
@@ -23,6 +24,10 @@
 * ``` source myenv/bin/activate ``` (enter the virtual env)
 * ``` pip install -r requirements.txt ```
 
+### Doing migrations ###
+* ``` python manage.py migrate ``` Does the migration of database
+* ``` python manage.py collectstatic ``` Prepares the static folder for css and javascript files.
+
 ### Configuring Redis ###
 * ``` sudo apt-get install redis-server ```
 * ``` sudo apt-get install vim ```
@@ -33,6 +38,8 @@
 ### Run supervisor
 * ``` sudo apt-get install supervisor ```
 * ``` source myenv/bin/activate ```
+* ``` mkdir csv ```
+* ``` mkdir output ```
 * ```supervisord ```
 * ``` sudo service redis-server restart ```
 
@@ -40,3 +47,5 @@
 *  Go to http://ipaddress:9001
 * Enter username: ai
 * Enter password: password
+* Context files are generated in csv/
+* Output files are generated in output/
