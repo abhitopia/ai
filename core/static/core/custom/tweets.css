@@ -6,6 +6,9 @@
 .twitter-comments {
   padding-top: 10px;
   padding-bottom: 10px;
-  width: calc(100% - 70px);
-  margin-left: 70px;
+  width: 100%;
+  float: left;
+}
+.twitter-comments .twitter-post {
+  width: 50%;
 }

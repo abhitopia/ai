@@ -1,15 +1,78 @@
-.navbar{border-bottom:solid 2px #1da1f2}.navbar li.active{background-color:transparent}.navbar li.active a{color:#1da1f2 !important;background-color:transparent !important}
-button{background-color:#1da1f2 !important}
-i.fa{color:#1da1f2 !important}
-section#home{margin-top:26px}
-section#team{background-color:rgba(242,242,242,0.6)}
-section#about-us{padding:50px}section#about-us h3.module-subtitle{margin:20px 0 30px}
-section#about-us p{font-size:14px}
-.steps{vertical-align:middle;font-size:14px;line-height:normal;display:flex;flex-align:column;margin-left:10px}
-.step-1{margin-top:21px}
-.step-img{max-height:60px;min-width:60px}
-.step-2{margin-top:21px}
-.step-3{margin-top:10px}
-.tweet-container{background-color:#f5f5f5;padding-top:10px;padding-bottom:10px;padding-left:0}
-#what-we-do .title{font-size:30px;text-align:center;width:100%;min-width:100%;display:block;margin-top:50px;color:#676770}
-.realtime-posts-link{text-align:center;font-size:18px;margin-top:30px;color:#1da1f2;text-decoration:underline}
+.navbar {
+  border-bottom: solid 2px #1da1f2;
+}
+.navbar li.active {
+  background-color: transparent;
+}
+.navbar li.active a {
+  color: #1da1f2 !important;
+  background-color: transparent !important;
+}
+button {
+  background-color: #1da1f2 !important;
+}
+i.fa {
+  color: #1da1f2 !important;
+}
+section#home {
+  margin-top: 26px;
+}
+section#team {
+  background-color: rgba(242, 242, 242, 0.6);
+}
+section#about-us {
+  padding: 50px;
+}
+section#about-us h3.module-subtitle {
+  margin: 20px 0 30px;
+}
+section#about-us p {
+  font-size: 14px;
+}
+.steps {
+  vertical-align: middle;
+  font-size: 14px;
+  line-height: normal;
+  display: flex;
+  flex-align: column;
+  margin-left: 10px;
+}
+.step-1 {
+  margin-top: 21px;
+}
+.step-img {
+  max-height: 60px;
+  min-width: 60px;
+}
+.step-2 {
+  margin-top: 21px;
+}
+.step-3 {
+  margin-top: 10px;
+}
+.tweet-container {
+  background-color: whitesmoke;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  float: left;
+}
+.tweet-container .twitter-post {
+  float: left;
+}
+#what-we-do .title {
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  min-width: 100%;
+  display: block;
+  margin-top: 50px;
+  color: #676770;
+}
+.realtime-posts-link {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 30px;
+  color: #1da1f2;
+  text-decoration: underline;
+}
