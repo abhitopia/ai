@@ -185,6 +185,8 @@ def generate_conversation_context(conversation_id):
     """
     tweets = Twitter_Tweet.objects.filter(Q(conversation_id=conversation_id)).order_by('tweet_id')
 
+    if len(tweets) == 0:
+        return
 
     try:
         with open(settings.BASE_DIR + '/csv/context-' + conversation_id, 'wb') as csvfile:

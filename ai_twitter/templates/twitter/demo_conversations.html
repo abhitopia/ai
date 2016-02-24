@@ -10,14 +10,22 @@
     <script>
 
     var display_page = function(pageno) {
-        
+        jQuery.ajax({
+            url: '/ai_twitter/demo_conversations_per_page/' + pageno,
+            success: function(data) {
+                console.log(data);
+                jQuery("#what-we-do #conversations-container").append(data);
+                $("#page-no").val(pageno);
+            }
+        });
     }
     $(document).ready(function(){
 
 	    $(window).scroll(function(){
 		    if ($(window).scrollTop() == $(document).height() - $(window).height()){
-                var pagenum = parseInt($("#page-no").val()) + 1;
-                console.log($("#page-no").val(pagenum));
+                var pageno = parseInt($("#page-no").val()) + 1;
+                display_page(pageno);
+
 
 			}
 	    });
@@ -30,10 +38,10 @@
 
 {% block maincontent %}
 
-    <input type="hidden" value="0" id="page-no">
+    <input type="hidden" value="1" id="page-no">
 
     <section id="what-we-do" class="module">
-        <div class="container-fluid">
+        <div id="conversations-container" class="container-fluid">
             {% for conversation_context in conversation_contexts %}
                 {% include "twitter/twitter_template.html" with conversation=conversation_context.0 response=conversation_context.1 ai_response=conversation_context.2 %}
             {% endfor %}
