@@ -283,6 +283,32 @@ def generate_conversation_output(conversation_id):
     )
 
 
+def get_n_processed_conversations(n=10, page=1):
+    """
+    :param n: Get n processed conversations
+    :return:
+    """
 
+    tweets = Twitter_Tweet.objects.filter(~Q(tweet_id=F('conversation_id')) & Q(is_processed=True) & ~Q(processed_content='') & ~Q(processed_content=None)).order_by('-conversation_id')
+
+    # Go through each tweet. If the conversation is aldready exists then dont add.
+    # Also the no of tweets to that corresponsding conversation should be 2.
+
+    valid_conversation_ids = []
+    count = 0
+    for tweet in tweets:
+        print tweet.tweet_id
+        if count == n*page:
+            break
+
+        conversation_id = tweet.conversation_id
+
+        if conversation_id not in valid_conversation_ids:
+            temp_tweets = Twitter_Tweet.objects.filter(conversation_id=conversation_id)
+            if len(temp_tweets) == 2:
+                valid_conversation_ids.append(conversation_id)
+                count = count + 1
+
+    return valid_conversation_ids[-10:]
 
 

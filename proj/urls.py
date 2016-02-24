@@ -19,5 +19,6 @@ from core import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', views.home, name='home'),
+    url(r'^home/', views.home, name='home'),
+    url(r'^ai_twitter/', include('ai_twitter.urls')),
 ]

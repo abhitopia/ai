@@ -1,0 +1,30 @@
+<div class="col-md-6" style="padding-bottom: 20px;">
+    <div class="tweet-container">
+        <div class="twitter-post container-fluid">
+            <img  style="float:left;min-height:50px;" width="50" height="50" src="{{ conversation.twitter_user.image_url }}">
+            <div class="twitter-content">
+                <p><strong data-new-link="true">{{ conversation.twitter_user.user_name }}</strong> @{{ conversation.twitter_user.screen_name }} - 1h<br data-new-link="true">{{ conversation.content }}</p>
+            </div>
+        </div>
+
+        <div class="twitter-comments">
+
+            <div class="twitter-post container-fluid">
+                <img  style="float:left;min-height:50px;" width="50" height="50" src="{{ response.twitter_user.image_url }}">
+                <div class="twitter-content">
+                    <p><strong data-new-link="true">{{ response.twitter_user.user_name }}</strong> @{{ response.twitter_user.screen_name }} - 1h<br data-new-link="true">{{ response.content }}</p>
+                </div>
+
+            </div>
+
+            <div class="twitter-post container-fluid">
+                <img  style="float:left;min-height:50px;" width="50" height="50" src="http://uploads.webflow.com/56bc8bf592e7914209132123/56bca68092e7914209136589_logo.png">
+                <div class="twitter-content">
+                    <p><strong data-new-link="true">True AI</strong> @TrueAI - 1h<br data-new-link="true">{{ ai_response }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,3 @@
+{% for conversation_context in conversation_contexts %}
+    {% include "twitter/twitter_template.html" with conversation=conversation_context.0 response=conversation_context.1 ai_response=conversation_context.2 %}
+{% endfor %}
